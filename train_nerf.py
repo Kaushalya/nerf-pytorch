@@ -1,5 +1,6 @@
 import argparse
 import glob
+import logging
 import os
 import time
 
@@ -48,6 +49,7 @@ def main():
         validation_paths = glob.glob(
             os.path.join(cfg.dataset.cachedir, "val", "*.data")
         )
+        logging.info("Using cached dataset.")
         USE_CACHED_DATASET = True
     else:
         # Load dataset
@@ -144,6 +146,7 @@ def main():
 
     # Setup logging.
     logdir = os.path.join(cfg.experiment.logdir, cfg.experiment.id)
+    logging.info("Logging to:", logdir)
     os.makedirs(logdir, exist_ok=True)
     writer = SummaryWriter(logdir)
     # Write out config parameters.
