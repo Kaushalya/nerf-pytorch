@@ -18,4 +18,3 @@ dependencies:
   - tqdm
   - pip:
     - opencv-python-headless
-    - "git+https://github.com/aliutkus/torchsearchsorted#egg=torchsearchsorted"
