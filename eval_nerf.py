@@ -18,6 +18,7 @@ from nerf import (
     get_embedding_function,
     run_one_iter_of_nerf,
 )
+from torch_utils import get_device
 
 
 def cast_to_image(tensor, dataset_type):
@@ -85,9 +86,7 @@ def main():
         render_poses = torch.from_numpy(render_poses)
 
     # Device on which to run.
-    device = "cpu"
-    if torch.cuda.is_available():
-        device = "cuda"
+    device = get_device()
 
     encode_position_fn = get_embedding_function(
         num_encoding_functions=cfg.models.coarse.num_encoding_fn_xyz,
@@ -125,7 +124,7 @@ def main():
         )
         model_fine.to(device)
 
-    checkpoint = torch.load(configargs.checkpoint)
+    checkpoint = torch.load(configargs.checkpoint, map_location=device)
     model_coarse.load_state_dict(checkpoint["model_coarse_state_dict"])
     if checkpoint["model_fine_state_dict"]:
         try:
